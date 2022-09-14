@@ -1,5 +1,9 @@
 """Module for translating DNA to proteins via codons."""
 
+import itertools
+from typing import List
+
+
 CODON_MAP = {'TTT': 'F', 'TTC': 'F', 'TTA': 'L', 'TTG': 'L',
              'TCT': 'S', 'TCC': 'S', 'TCA': 'S', 'TCG': 'S',
              'TAT': 'Y', 'TAC': 'Y', 'TAA': '*', 'TAG': '*',
@@ -35,8 +39,10 @@ def split_codons(dna: str) -> list[str] | None:
     True
 
     """
-    # FIXME: Implement the function
-    return []
+
+    if (len(dna) > 0) and (len(dna) % 3 != 0):
+        return None
+    return [dna[i:i+3] for i in range(0, len(dna), 3)]
 
 
 def translate_codons(codons: list[str]) -> list[str]:
@@ -60,8 +66,13 @@ def translate_codons(codons: list[str]) -> list[str]:
     True
 
     """
-    # FIXME: Implement the function
-    return []
+    aminoacids = list()
+    for codon in codons:
+        if aminoacid := CODON_MAP.get(codon.upper(), None):
+            aminoacids.append(aminoacid)
+        else:
+            return None
+    return aminoacids
 
 
 def translate_dna(dna: str) -> str:
@@ -80,5 +91,10 @@ def translate_dna(dna: str) -> str:
     True
 
     """
-    # FIXME: Implement the function
-    return ""
+    if dna == "":
+        return dna
+    if codons := split_codons(dna):
+        if aminoacids := translate_codons(codons):
+            return "".join(aminoacids)
+    else:
+        return None
