@@ -35,8 +35,12 @@ def split_codons(dna: str) -> list[str] | None:
     True
 
     """
-    # FIXME: Implement the function
-    return []
+    if len(dna) % 3 != 0:
+        return None
+    codons = list()
+    for i in range(0, len(dna), 3):
+        codons.append(dna[i:i+3])
+    return codons
 
 
 def translate_codons(codons: list[str]) -> list[str]:
