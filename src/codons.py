@@ -39,7 +39,8 @@ def split_codons(dna: str) -> list[str] | None:
     True
 
     """
-    if len(dna) % 3 != 0:
+
+    if (len(dna) > 0) and (len(dna) % 3 != 0):
         return None
     return [dna[i:i+3] for i in range(0, len(dna), 3)]
 
@@ -90,7 +91,10 @@ def translate_dna(dna: str) -> str:
     True
 
     """
+    if dna == "":
+        return dna
     if codons := split_codons(dna):
-        return "".join(translate_codons(codons))
+        if aminoacids := translate_codons(codons):
+            return "".join(aminoacids)
     else:
         return None
